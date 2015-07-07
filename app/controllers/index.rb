@@ -1,25 +1,25 @@
 get '/' do
+	@user = TwitterUser.find_by_username("wwy93")
   erb :index
 end
 
 post '/' do
-	redirect to "/#{params[:username]}"
-end
-
-get '/:username' do
-	@user = TwitterUser.find_by_username(params[:username])
-	# if @user.tweets.empty?
-	# 	@user.fetch_tweets
-	# end
-
+	@user = TwitterUser.find_by_username("wwy93")
+	$client.update(params["tweet"])	
 	if @user.tweets_stale?
-	# 	@user = TwitterUser.new(username: params[:username])
-	# 	@user.fetch_tweets!
-	# else
-	# 	if @user.tweets_stale?
-				@user.fetch_tweets!
-		# end	
+		@user.fetch_tweets!
+	else
+		@user.fetch_tweets!	
 	end
 	@tweets = @user.tweets
-	erb :"/tweets/show"
+	erb :"/tweets/show", layout: false
 end
+
+# get '/:username' do
+# 	@user = TwitterUser.find_by_username(params[:username])
+# 	if @user.tweets_stale?
+# 		@user.fetch_tweets!
+# 	end
+# 	@tweets = @user.tweets
+# 	erb :"/tweets/show"
+# end

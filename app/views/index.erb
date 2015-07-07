@@ -1,9 +1,16 @@
 <div class="container">
-  <h1>Welcome to Sinatra!</h1>
-  <p>Hello, world!</p>
+	<h1><%= @user.username%></h1>
 
-<form action="/" method="post">
-  <input type="text" name="username">
-  <input type="submit" value="Submit">
-</form>
+	<form action="/" method="post" id="submit_tweet">
+	  <input type="text" name="tweet" placeholder="Tweet something :D">
+	  <input id="submitbutton" type="submit" value="Submit">
+	</form>
+	<br><br>
+	<div id="tweets">
+
+	</div>
+	<div id="loader" style="display:none;">
+		<img src="/loader/ajax-loader.gif"><br><br>
+		Posting Tweet! Tweet tweet!
+	</div>
 </div>

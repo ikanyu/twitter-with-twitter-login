@@ -3,9 +3,9 @@ class TwitterUser < ActiveRecord::Base
   has_many :tweets
 
   def fetch_tweets!
-  	byebug
+  	# byebug
   	if !self.tweets.empty?
-  		Tweet.destroy(self.tweets)
+  		self.tweets.destroy_all
   	end	
   	$client.user_timeline(self.username).take(10).each do |tweet|
   		self.tweets.new(tweet: tweet.text)
@@ -15,12 +15,14 @@ class TwitterUser < ActiveRecord::Base
 
   def tweets_stale?
   	t = Time.now
-  	byebug
+  	# byebug
   	if self.tweets.empty?
   		true
   	else
 	  	if self.tweets.first.updated_at + 15.minutes < Time.now
-	  		false
+	  		true
+      else
+        false  
 	  	end
 	  end	
   end
