@@ -7,13 +7,21 @@ class TwitterUser < ActiveRecord::Base
   	if !self.tweets.empty?
   		self.tweets.destroy_all
   	end	
-  	$client.user_timeline(self.username).take(10).each do |tweet|
+  	client = generateClient(self)
+    client.user_timeline(self.username).take(10).each do |tweet|
   		self.tweets.new(tweet: tweet.text)
   		self.save
   	end
   end
 
+  def postTweet(tweet)
+    client = generateClient(self)
+    # byebug
+    client.update(tweet)    
+  end
+
   def tweets_stale?
+
   	t = Time.now
   	# byebug
   	if self.tweets.empty?
@@ -26,4 +34,14 @@ class TwitterUser < ActiveRecord::Base
 	  	end
 	  end	
   end
+  private
+    def generateClient(user)
+      client = Twitter::REST::Client.new do |config|
+        config.consumer_key        = API_KEYS["development"]["twitter_consumer_key_id"]
+        config.consumer_secret     = API_KEYS["development"]["twitter_consumer_secret_key_id"]
+        config.access_token        = user.access_token
+        config.access_token_secret = user.access_token_secret
+      end
+    end
+  
 end

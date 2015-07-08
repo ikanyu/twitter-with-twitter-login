@@ -24,13 +24,14 @@ require 'yaml'
 require 'twitter'
 require 'byebug'
 
+require 'omniauth-twitter'
+
 API_KEYS = YAML::load(File.open('config/api_keys.yaml'))
 
-$client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = API_KEYS["development"]["twitter_consumer_key_id"]
-      config.consumer_secret     = API_KEYS["development"]["twitter_consumer_secret_key_id"]
-      config.access_token        = API_KEYS["development"]["twitter_consumer_access_token_id"]
-      config.access_token_secret = API_KEYS["development"]["twitter_consumer_access_token_secret_id"]
+
+
+use OmniAuth::Builder do
+  provider :twitter, API_KEYS["development"]["twitter_consumer_key_id"], API_KEYS["development"]["twitter_consumer_secret_key_id"]
 end
 
 # Some helper constants for path-centric logic
