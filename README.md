@@ -1,6 +1,8 @@
 # Twitter App with Twitter OAuth and Sinatra
+Part of the daily Next Academy bootcamp exercises
 
-Part of the daily Next Academy bootcamp exercises. Mainly to explore Twitter OAth
+## Objective
+Explore Twitter OAth
 
 ## Setup
 ```
